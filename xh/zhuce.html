@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/zhuce.css"/>
+		<title></title>
+		<script src="js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+				<nav>
+			<a href="shouye.html">LOGO</a>
+		</nav>
+		<div id="box">
+			<div class="lx">
+				<img src="img/dllogo.png"/>
+			</div>
+			<div class="lx2">
+				Sign up for your account
+			</div>
+			<div class="container">
+			<form>
+				<div class="yh">
+					<input type="text" name="username" id="username" placeholder="User Name"/>
+					<img src="img/输入名称.png"/>
+				</div>	
+				<div id="zz1"></div>
+				<div class="mm">
+					<input type="password" name="psd" id="psd"  value="" placeholder="enter password"/ >
+					<img src="img/输入密码.png"/>
+				</div>
+				<div id="zz2"></div>
+				<div class="mm2">
+					<input type="password" name="psd2" id="psd2"  value="" placeholder="Confirm Password"/ >
+					<img src="img/输入密码.png"/>
+				</div>
+				<div id="zz3"></div>
+					<input type="submit" id="submit" value="register"/>
+			</form>
+		</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+			//		用户正则
+					var uPattern = /^[a-zA-Z0-9_-]\d{4,16}$/;
+		//		密码正则
+					var pPattern = /^[A-z\d]{6,16}$/;
+					var bo = false;
+	$("#username").blur(function(){
+					if(uPattern.test($("#username").val())==true){
+						bo = true;
+						$("#zz1").html("User name available");
+						$("#zz1").css("color","limegreen");
+					}else{
+						$("#zz1").html("User name format error!");
+						$("#zz1").css("color","red");
+					}
+				});
+	$("#psd").blur(function(){
+					if(pPattern.test($("#psd").val())==true){
+						bo = true;
+						$("#zz2").html("The password can be used");
+						$("#zz2").css("color","limegreen");
+					}else{
+						$("#zz2").html("Account or password error!");
+						$("#zz2").css("color","red");
+					}
+				});
+	$("#psd2").blur(function(){
+					if($("#psd").val()==$("#psd2").val()){
+						bo = true;
+						$("#zz3").html("Same password");
+						$("#zz3").css("color","limegreen");
+					}else{
+						$("#zz3").html("Please check the password again!");
+						$("#zz3").css("color","red");
+					}
+				});
+		
+			$('#submit').click(function() {
+			$.ajax({
+				type: "post",
+				url: "http://47.92.37.168/luntai/php/index.php?C=Login&M=sign",
+				dataType:"json",
+				data: {
+					'username': $('#username').val(),
+					'password': $('#psd').val()
+				},
+				success: function(data) {
+					if(data.code == '200') {
+						location.href = 'index.html';
+					}else if(data.code != '200'){
+//						alert("This email has been registered!")
+						$("#zz3").html("This email has been registered!")
+					}
+				}
+			});
+			return false;
+		})
+		
+	
+	</script>
+</html>
